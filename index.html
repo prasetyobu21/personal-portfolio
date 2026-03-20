@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prasetyo — Senior Product Designer & Product Manager</title>
+  <meta name="description"
+    content="Portfolio of Prasetyo, a Senior Product Designer and Product Manager at bitbybit. Explore projects in UI/UX Design, Articles, and Graphic Design.">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#262627',
+            muted: '#8A8A8E',
+            bg: '#FAFAFA',
+            'card-border': '#EBEBEB',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar for tabs */
+    .tabs-scroll::-webkit-scrollbar {
+      height: 0;
+      width: 0;
+    }
+
+    .tabs-scroll {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Card overlay on hover */
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.3s ease;
+    }
+
+    .card-overlay-text {
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .portfolio-card:hover .card-overlay {
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .portfolio-card:hover .card-overlay-text {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Title underline on hover */
+    .portfolio-card:hover .card-title {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Tab underline transition */
+    .tab-btn {
+      position: relative;
+      transition: color 0.25s ease;
+    }
+
+    .tab-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #262627;
+      transition: width 0.3s ease;
+    }
+
+    .tab-btn.active::after {
+      width: 100%;
+    }
+
+    .tab-btn:hover::after {
+      width: 100%;
+    }
+
+    /* Fade-in animation for cards */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    /* Footer CTA gradient */
+    .footer-cta {
+      background: linear-gradient(180deg, #FAFAFA 0%, #F0F0F0 100%);
+    }
+
+    /* ---- Lightbox ---- */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .lightbox-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 110;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .lightbox-image-area {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 60px 0 0;
+    }
+
+    .lightbox-track {
+      display: flex;
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      width: 100%;
+      height: 100%;
+      align-items: center;
+    }
+
+    .lightbox-slide {
+      min-width: 100%;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 80px;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 768px) {
+      .lightbox-slide {
+        padding: 0 20px;
+      }
+    }
+
+    .lightbox-slide img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .lightbox-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease, opacity 0.2s ease;
+      z-index: 110;
+    }
+
+    .lightbox-nav:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .lightbox-nav.prev {
+      left: 16px;
+    }
+
+    .lightbox-nav.next {
+      right: 16px;
+    }
+
+    .lightbox-nav.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .lightbox-bottom {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 24px;
+    }
+
+    .lightbox-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .lightbox-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .lightbox-dot.active {
+      background: #fff;
+      transform: scale(1.25);
+    }
+
+    .lightbox-counter {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+
+<body class="bg-bg font-sans text-primary antialiased">
+
+  <!-- ===================== HERO / INTRODUCTION ===================== -->
+  <header id="hero" class="max-w-5xl mx-auto px-6 pt-16 pb-12 md:pt-24 md:pb-16">
+    <!-- Avatar -->
+    <div class="mb-6">
+      <img id="profile-avatar" src="assets/images/profile-avatar.png" alt="Prasetyo — Product Designer avatar"
+        class="w-16 h-16 md:w-20 md:h-20 rounded-2xl object-cover shadow-sm" />
+    </div>
+
+    <!-- Heading & Bio -->
+    <h1 class="text-3xl md:text-[2.75rem] md:leading-tight font-bold tracking-tight mb-3">
+      Hi! - I'm Tyo 👋
+    </h1>
+    <p class="text-base md:text-lg text-muted max-w-xl leading-relaxed">
+      Senior Product Designer &amp; Product Manager at
+      <span class="text-primary font-medium">bitbybit</span>.
+      Crafting intuitive digital experiences that bridge user needs with business goals.
+    </p>
+  </header>
+
+  <!-- ===================== PORTFOLIO SECTION ===================== -->
+  <main id="portfolio" class="max-w-5xl mx-auto px-6 pb-20">
+
+    <!-- Filter Tabs -->
+    <nav id="portfolio-tabs" class="mb-8 border-b border-card-border">
+      <div class="tabs-scroll flex gap-6 overflow-x-auto pb-px">
+        <button class="tab-btn active text-sm md:text-[15px] font-semibold text-primary pb-3 whitespace-nowrap"
+          data-filter="all">
+          All
+        </button>
+        <button class="tab-btn text-sm md:text-[15px] font-medium text-muted pb-3 whitespace-nowrap hover:text-primary"
+          data-filter="design">
+          Design Exploration
+        </button>
+        <button class="tab-btn text-sm md:text-[15px] font-medium text-muted pb-3 whitespace-nowrap hover:text-primary"
+          data-filter="article">
+          Article
+        </button>
+      </div>
+    </nav>
+
+    <!-- Portfolio Grid -->
+    <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+
+      <!-- Card 0 — Design + Article (Retain AI) -->
+      <a href="https://medium.com/@prasetyobu21/ai-powered-customer-success-churn-prediction-dashboard-a317231c5364"
+        target="_blank" rel="noopener noreferrer" class="portfolio-card group block overflow-hidden"
+        data-category="design article" data-title="Retain AI — AI Based Retention Dashboard"
+        data-subtitle="Modern data visualization that helps user to make important decision.">
+        <div class="overflow-hidden bg-white border border-card-border relative">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="assets/images/retain-ai/Retain AI - Thumbnail.png" alt="Retain AI Dashboard"
+              class="card-image w-full h-full object-cover" loading="lazy">
+          </div>
+          <div class="card-overlay">
+            <span class="card-overlay-text">
+              Click to open
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+              </svg>
+            </span>
+          </div>
+        </div>
+        <div class="pt-4 pb-2">
+          <h3 class="card-title text-base md:text-lg font-semibold transition-colors duration-200">
+            Retain AI — AI Based Retention Dashboard
+          </h3>
+          <p class="text-sm text-muted mt-1">
+            Modern data visualization that helps user to make important decision.
+          </p>
+        </div>
+      </a>
+
+      <!-- Card 1 — Design + Article (AI Meal Planner) -->
+      <a href="https://medium.com/@prasetyobu21/snap-chat-cook-redefining-meal-prep-with-visual-ai-and-conversational-agents-465b113ae61c"
+        target="_blank" rel="noopener noreferrer" class="portfolio-card group block overflow-hidden"
+        data-category="design article" data-title="AI Meal Planner — Snap, Chat & Cook"
+        data-subtitle="Redefining meal prep with visual AI and conversational agents for a smarter cooking experience.">
+        <div class="overflow-hidden bg-white border border-card-border relative">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="assets/images/ai-meal-planner/AI Meal Planner - Thumbnail.png" alt="AI Meal Planner App"
+              class="card-image w-full h-full object-cover" loading="lazy">
+          </div>
+          <div class="card-overlay">
+            <span class="card-overlay-text">
+              Click to open
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+              </svg>
+            </span>
+          </div>
+        </div>
+        <div class="pt-4 pb-2">
+          <h3 class="card-title text-base md:text-lg font-semibold transition-colors duration-200">
+            AI Meal Planner — Snap, Chat & Cook
+          </h3>
+          <p class="text-sm text-muted mt-1">
+            Redefining meal prep with visual AI and conversational agents for a smarter cooking experience.
+          </p>
+        </div>
+      </a>
+
+      <!-- Card 2 — Design -->
+      <a href="javascript:void(0)" class="portfolio-card group block overflow-hidden" data-category="design"
+        data-title="FLOW — Fintech Dashboard Design"
+        data-subtitle="End-to-end product design for a modern fintech dashboard with spending analytics and account management."
+        data-images='["assets/images/portfolio-1.png"]'>
+        <div class="overflow-hidden bg-white border border-card-border relative">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="assets/images/portfolio-1.png" alt="FLOW Fintech Dashboard"
+              class="card-image w-full h-full object-cover" loading="lazy">
+          </div>
+          <div class="card-overlay">
+            <span class="card-overlay-text">Click to open</span>
+          </div>
+        </div>
+        <div class="pt-4 pb-2">
+          <h3 class="card-title text-base md:text-lg font-semibold transition-colors duration-200">
+            FLOW — Fintech Dashboard Design
+          </h3>
+          <p class="text-sm text-muted mt-1">
+            End-to-end product design for a modern fintech dashboard with spending analytics and account management.
+          </p>
+        </div>
+      </a>
+
+      <!-- Card 2 — Design -->
+      <a href="javascript:void(0)" class="portfolio-card group block overflow-hidden" data-category="design"
+        data-title="Synapse — SaaS Analytics Platform"
+        data-subtitle="Comprehensive dashboard UI design featuring revenue tracking, user analytics, and project management."
+        data-images='["assets/images/portfolio-2.png"]'>
+        <div class="overflow-hidden bg-white border border-card-border relative">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="assets/images/portfolio-2.png" alt="Synapse Analytics Dashboard"
+              class="card-image w-full h-full object-cover" loading="lazy">
+          </div>
+          <div class="card-overlay">
+            <span class="card-overlay-text">Click to open</span>
+          </div>
+        </div>
+        <div class="pt-4 pb-2">
+          <h3 class="card-title text-base md:text-lg font-semibold transition-colors duration-200">
+            Synapse — SaaS Analytics Platform
+          </h3>
+          <p class="text-sm text-muted mt-1">
+            Comprehensive dashboard UI design featuring revenue tracking, user analytics, and project management.
+          </p>
+        </div>
+      </a>
+
+      <!-- Card 3 — Design -->
+      <a href="javascript:void(0)" class="portfolio-card group block overflow-hidden" data-category="design"
+        data-title="Moderne — E-Commerce Mobile App"
+        data-subtitle="Premium mobile shopping experience with product discovery, cart management, and seamless checkout flow."
+        data-images='["assets/images/portfolio-3.png"]'>
+        <div class="overflow-hidden bg-white border border-card-border relative">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="assets/images/portfolio-3.png" alt="Moderne E-commerce App"
+              class="card-image w-full h-full object-cover" loading="lazy">
+          </div>
+          <div class="card-overlay">
+            <span class="card-overlay-text">Click to open</span>
+          </div>
+        </div>
+        <div class="pt-4 pb-2">
+          <h3 class="card-title text-base md:text-lg font-semibold transition-colors duration-200">
+            Moderne — E&#8209;Commerce Mobile App
+          </h3>
+          <p class="text-sm text-muted mt-1">
+            Premium mobile shopping experience with product discovery, cart management, and seamless checkout flow.
+          </p>
+        </div>
+      </a>
+
+      <!-- Card 4 — Article -->
+      <a href="#" class="portfolio-card group block overflow-hidden" data-category="article">
+        <div class="overflow-hidden bg-white border border-card-border relative">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="assets/images/portfolio-4.png" alt="Digital Nomad Article"
+              class="card-image w-full h-full object-cover" loading="lazy">
+          </div>
+          <div class="card-overlay">
+            <span class="card-overlay-text">
+              Click to open
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+              </svg>
+            </span>
+          </div>
+        </div>
+        <div class="pt-4 pb-2">
+          <h3 class="card-title text-base md:text-lg font-semibold transition-colors duration-200">
+            The Rise of the Digital Nomad
+          </h3>
+          <p class="text-sm text-muted mt-1">
+            An editorial piece exploring how remote work is reshaping the way designers and product managers
+            collaborate.
+          </p>
+        </div>
+      </a>
+
+      <!-- Card 5 — Design -->
+      <a href="javascript:void(0)" class="portfolio-card group block overflow-hidden" data-category="design"
+        data-title="Minimalist Poster Collection"
+        data-subtitle="A series of bold typographic posters combining geometric abstraction with modern minimalist aesthetics."
+        data-images='["assets/images/portfolio-5.png"]'>
+        <div class="overflow-hidden bg-white border border-card-border relative">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="assets/images/portfolio-5.png" alt="Minimalist Poster Collection"
+              class="card-image w-full h-full object-cover" loading="lazy">
+          </div>
+          <div class="card-overlay">
+            <span class="card-overlay-text">Click to open</span>
+          </div>
+        </div>
+        <div class="pt-4 pb-2">
+          <h3 class="card-title text-base md:text-lg font-semibold transition-colors duration-200">
+            Minimalist Poster Collection
+          </h3>
+          <p class="text-sm text-muted mt-1">
+            A series of bold typographic posters combining geometric abstraction with modern minimalist aesthetics.
+          </p>
+        </div>
+      </a>
+
+      <!-- Card 6 — Design -->
+      <a href="javascript:void(0)" class="portfolio-card group block overflow-hidden" data-category="design"
+        data-title="MedLink — Telehealth Platform"
+        data-subtitle="Healthcare app design featuring appointment scheduling, virtual consultations, and patient management."
+        data-images='["assets/images/portfolio-6.png"]'>
+        <div class="overflow-hidden bg-white border border-card-border relative">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="assets/images/portfolio-6.png" alt="MedLink Telehealth Platform"
+              class="card-image w-full h-full object-cover" loading="lazy">
+          </div>
+          <div class="card-overlay">
+            <span class="card-overlay-text">Click to open</span>
+          </div>
+        </div>
+        <div class="pt-4 pb-2">
+          <h3 class="card-title text-base md:text-lg font-semibold transition-colors duration-200">
+            MedLink — Telehealth Platform
+          </h3>
+          <p class="text-sm text-muted mt-1">
+            Healthcare app design featuring appointment scheduling, virtual consultations, and patient management.
+          </p>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- ===================== FOOTER CTA ===================== -->
+  <footer>
+    <!-- CTA Section -->
+    <section id="cta" class="footer-cta py-16 md:py-24">
+      <div class="max-w-5xl mx-auto px-6 text-center">
+        <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-3">
+          Let's work together
+        </h2>
+        <p class="text-muted text-sm md:text-base mb-8 max-w-md mx-auto">
+          Open to new opportunities, collaborations, and interesting projects. Feel free to reach out.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a id="cta-email" href="mailto:hello@prasetyo.design"
+            class="inline-flex items-center justify-center gap-2 bg-primary text-white text-sm font-medium rounded-full px-7 py-3 hover:bg-primary/85 transition-colors duration-200 w-full sm:w-auto">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            Email Me
+          </a>
+          <a id="cta-linkedin" href="https://linkedin.com/in/prasetyo" target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 bg-white text-primary text-sm font-medium rounded-full px-7 py-3 border border-card-border hover:border-primary/30 hover:bg-primary/5 transition-all duration-200 w-full sm:w-auto">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Footer -->
+    <div id="bottom-footer" class="bg-bg border-t border-card-border">
+      <div class="max-w-5xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-muted order-2 md:order-1">
+          &copy; 2026 Prasetyo. All rights reserved.
+        </p>
+        <nav class="flex items-center gap-5 order-1 md:order-2" aria-label="Social links">
+          <a href="https://instagram.com/prasetyo" target="_blank" rel="noopener noreferrer"
+            class="text-muted hover:text-primary transition-colors duration-200" aria-label="Instagram">
+            <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+            </svg>
+          </a>
+          <a href="https://linkedin.com/in/prasetyo" target="_blank" rel="noopener noreferrer"
+            class="text-muted hover:text-primary transition-colors duration-200" aria-label="LinkedIn">
+            <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg>
+          </a>
+          <a href="https://twitter.com/prasetyo" target="_blank" rel="noopener noreferrer"
+            class="text-muted hover:text-primary transition-colors duration-200" aria-label="Twitter">
+            <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+          </a>
+          <a href="https://threads.net/@prasetyo" target="_blank" rel="noopener noreferrer"
+            class="text-muted hover:text-primary transition-colors duration-200" aria-label="Threads">
+            <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.432 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.187.408-2.228 1.33-2.93.88-.67 2.056-1.048 3.505-1.126 1.089-.06 2.099.034 3.003.28-.143-1.14-.632-1.975-1.474-2.49-.96-.59-2.264-.763-3.396-.525l-.436-1.952c1.533-.321 3.26-.164 4.621.67 1.2.735 2.023 1.903 2.35 3.49a7.168 7.168 0 011.734 1.188c.999.93 1.72 2.168 2.087 3.583.601 2.407.087 5.212-2.087 7.384C17.954 23.208 15.618 23.978 12.186 24zm.061-7.092c1.068-.06 1.858-.462 2.351-1.076.416-.517.735-1.227.903-2.12-.853-.28-1.794-.395-2.803-.339-1.594.087-2.59.629-2.544 1.564.033.687.727 1.97 2.093 1.97z" />
+            </svg>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== LIGHTBOX ===================== -->
+  <div id="lightbox" class="lightbox-overlay" aria-hidden="true" role="dialog">
+    <!-- Close -->
+    <button id="lightbox-close" class="lightbox-close" aria-label="Close lightbox">
+      <svg class="w-5 h-5" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Nav arrows -->
+    <button id="lightbox-prev" class="lightbox-nav prev" aria-label="Previous image">
+      <svg class="w-5 h-5" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <button id="lightbox-next" class="lightbox-nav next" aria-label="Next image">
+      <svg class="w-5 h-5" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+
+    <!-- Image area -->
+    <div id="lightbox-image-area" class="lightbox-image-area">
+      <div id="lightbox-track" class="lightbox-track"></div>
+    </div>
+
+    <!-- Bottom: dots + counter -->
+    <div class="lightbox-bottom">
+      <div id="lightbox-dots" class="lightbox-dots"></div>
+      <p id="lightbox-counter" class="lightbox-counter"></p>
+    </div>
+  </div>
+
+  <!-- ===================== JAVASCRIPT ===================== -->
+  <script>
+    // ---- Tab Filtering ----
+    const tabs = document.querySelectorAll('.tab-btn');
+    const cards = document.querySelectorAll('.portfolio-card');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => {
+          t.classList.remove('active', 'text-primary', 'font-semibold');
+          t.classList.add('text-muted', 'font-medium');
+        });
+        tab.classList.add('active', 'text-primary', 'font-semibold');
+        tab.classList.remove('text-muted', 'font-medium');
+
+        const filter = tab.dataset.filter;
+
+        cards.forEach((card, idx) => {
+          card.classList.remove('fade-in-up');
+          const categories = card.dataset.category.split(' ');
+          if (filter === 'all' || categories.includes(filter)) {
+            card.style.display = 'block';
+            setTimeout(() => {
+              card.classList.add('fade-in-up');
+              card.style.animationDelay = `${idx * 0.07}s`;
+            }, 10);
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // ---- Intersection Observer ----
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -40px 0px' };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-up');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    cards.forEach((card, idx) => {
+      card.style.animationDelay = `${idx * 0.1}s`;
+      observer.observe(card);
+    });
+
+    // ---- Lightbox Carousel ----
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImageArea = document.getElementById('lightbox-image-area');
+    const lightboxTrack = document.getElementById('lightbox-track');
+    const lightboxDots = document.getElementById('lightbox-dots');
+    const lightboxCounter = document.getElementById('lightbox-counter');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
+
+    let currentSlide = 0;
+    let totalSlides = 0;
+
+    function openLightbox(images) {
+      totalSlides = images.length;
+      currentSlide = 0;
+
+      // Disable transition so reset to slide 0 is instant
+      lightboxTrack.style.transition = 'none';
+      lightboxTrack.style.transform = 'translateX(0)';
+
+      // Build slides
+      lightboxTrack.innerHTML = images.map(src =>
+        `<div class="lightbox-slide"><img src="${src}" alt="Portfolio image"></div>`
+      ).join('');
+
+      // Build dots
+      lightboxDots.innerHTML = images.map((_, i) =>
+        `<button class="lightbox-dot${i === 0 ? ' active' : ''}" data-index="${i}" aria-label="Go to slide ${i + 1}"></button>`
+      ).join('');
+
+      updateSlide();
+
+      // Re-enable transition after a frame
+      requestAnimationFrame(() => {
+        lightboxTrack.style.transition = '';
+      });
+
+      lightbox.classList.add('active');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function updateSlide() {
+      lightboxTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+      // Update counter
+      lightboxCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+
+      // Update dots
+      lightboxDots.querySelectorAll('.lightbox-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+      });
+
+      // Show/hide nav arrows
+      lightboxPrev.classList.toggle('hidden', currentSlide === 0);
+      lightboxNext.classList.toggle('hidden', currentSlide === totalSlides - 1);
+
+      // Hide dots & counter if single image (use visibility to preserve layout)
+      const isSingle = totalSlides <= 1;
+      lightboxDots.style.visibility = isSingle ? 'hidden' : 'visible';
+      lightboxCounter.style.visibility = isSingle ? 'hidden' : 'visible';
+    }
+
+    function goToSlide(index) {
+      currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
+      updateSlide();
+    }
+
+    // Card click → open lightbox (design cards with images only, skip external links)
+    cards.forEach(card => {
+      if (card.dataset.images) {
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          openLightbox(JSON.parse(card.dataset.images));
+        });
+      }
+    });
+
+    // Close handlers
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxImageArea.addEventListener('click', closeLightbox);
+
+    // Nav handlers
+    lightboxPrev.addEventListener('click', (e) => { e.stopPropagation(); goToSlide(currentSlide - 1); });
+    lightboxNext.addEventListener('click', (e) => { e.stopPropagation(); goToSlide(currentSlide + 1); });
+
+    // Dot clicks
+    lightboxDots.addEventListener('click', (e) => {
+      if (e.target.classList.contains('lightbox-dot')) {
+        goToSlide(parseInt(e.target.dataset.index));
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') goToSlide(currentSlide - 1);
+      if (e.key === 'ArrowRight') goToSlide(currentSlide + 1);
+    });
+  </script>
+
+</body>
+
+</html>
