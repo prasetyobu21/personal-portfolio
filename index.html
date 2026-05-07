@@ -61,6 +61,7 @@
       justify-content: center;
       gap: 6px;
       transition: background 0.3s ease;
+      z-index: 3;
     }
 
     .card-overlay-text {
@@ -292,6 +293,38 @@
       font-size: 12px;
       color: rgba(255, 255, 255, 0.5);
     }
+
+    /* ---- Image Skeleton Loader ---- */
+    .img-skeleton {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #ebebeb 25%, #f5f5f5 50%, #ebebeb 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite linear;
+      z-index: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .img-skeleton.loaded {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .card-image {
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .card-image.img-loaded {
+      opacity: 1;
+    }
   </style>
 </head>
 
@@ -346,7 +379,8 @@
         data-date="2026-05" data-title="Terragrid Website"
         data-subtitle="Testing the vibe coding experience by building a landing page fully with Gemini CLI as a coding agent.">
         <div class="overflow-hidden bg-white border border-card-border relative">
-          <div class="aspect-[4/3] overflow-hidden">
+          <div class="aspect-[4/3] overflow-hidden relative">
+            <div class="img-skeleton"></div>
             <img src="assets/images/terragrid-thumbnail.png" alt="Terragrid Website"
               class="card-image w-full h-full object-cover" loading="lazy">
           </div>
@@ -377,7 +411,8 @@
         data-category="article" data-date="2026-04" data-title="The Vibe Coding Trend — Not Just a Buzzword"
         data-subtitle="Exploring how vibe coding is fundamentally changing the product workflow.">
         <div class="overflow-hidden bg-white border border-card-border relative">
-          <div class="aspect-[4/3] overflow-hidden">
+          <div class="aspect-[4/3] overflow-hidden relative">
+            <div class="img-skeleton"></div>
             <img src="assets/images/vibe_coding_thumbnail.jpeg" alt="The Vibe Coding Trend"
               class="card-image w-full h-full object-cover" loading="lazy">
           </div>
@@ -408,7 +443,8 @@
         data-category="design article" data-date="2026-01" data-title="Retain AI — AI Based Retention Dashboard"
         data-subtitle="Modern data visualization that helps user to make important decision.">
         <div class="overflow-hidden bg-white border border-card-border relative">
-          <div class="aspect-[4/3] overflow-hidden">
+          <div class="aspect-[4/3] overflow-hidden relative">
+            <div class="img-skeleton"></div>
             <img src="assets/images/Retain-AI/Retain AI - Thumbnail.png" alt="Retain AI Dashboard"
               class="card-image w-full h-full object-cover" loading="lazy">
           </div>
@@ -439,7 +475,8 @@
         data-category="design article" data-date="2025-11" data-title="AI Meal Planner — Snap, Chat & Cook"
         data-subtitle="Redefining meal prep with visual AI and conversational agents for a smarter cooking experience.">
         <div class="overflow-hidden bg-white border border-card-border relative">
-          <div class="aspect-[4/3] overflow-hidden">
+          <div class="aspect-[4/3] overflow-hidden relative">
+            <div class="img-skeleton"></div>
             <img src="assets/images/ai-meal-planner/AI Meal Planner - Thumbnail.png" alt="AI Meal Planner App"
               class="card-image w-full h-full object-cover" loading="lazy">
           </div>
@@ -470,7 +507,8 @@
         data-subtitle="Minimalist white payment icons (Visa, Mastercard, Shopify) applied to a seamless checkout selection modal."
         data-images='["assets/images/white-icon-exploration/White icon - exploration.png", "assets/images/white-icon-exploration/White icon - implementation.png"]'>
         <div class="overflow-hidden bg-white border border-card-border relative">
-          <div class="aspect-[4/3] overflow-hidden">
+          <div class="aspect-[4/3] overflow-hidden relative">
+            <div class="img-skeleton"></div>
             <img src="assets/images/white-icon-exploration/White icon - exploration.png" alt="White icon exploration"
               class="card-image w-full h-full object-cover" loading="lazy">
           </div>
@@ -495,7 +533,8 @@
         data-subtitle="A comprehensive set of health tracking widgets including sleep monitoring, running sessions, and calories burned."
         data-images='["assets/images/Sports app widget.png"]'>
         <div class="overflow-hidden bg-white border border-card-border relative">
-          <div class="aspect-[4/3] overflow-hidden">
+          <div class="aspect-[4/3] overflow-hidden relative">
+            <div class="img-skeleton"></div>
             <img src="assets/images/Sports app widget.png" alt="Health Tracker Widgets"
               class="card-image w-full h-full object-cover" loading="lazy">
           </div>
@@ -521,7 +560,8 @@
         data-subtitle="A sleek and modern set of outline icons using a bold dual-tone palette to enhance interface clarity."
         data-images='["assets/images/Black - orange icon exploration.png"]'>
         <div class="overflow-hidden bg-white border border-card-border relative">
-          <div class="aspect-[4/3] overflow-hidden">
+          <div class="aspect-[4/3] overflow-hidden relative">
+            <div class="img-skeleton"></div>
             <img src="assets/images/Black - orange icon exploration.png" alt="Black &amp; Orange Icon Exploration"
               class="card-image w-full h-full object-cover" loading="lazy">
           </div>
@@ -651,6 +691,27 @@
 
   <!-- ===================== JAVASCRIPT ===================== -->
   <script>
+    // ---- Image Skeleton Loader ----
+    function initImageSkeleton(img) {
+      const skeleton = img.previousElementSibling;
+      if (!skeleton || !skeleton.classList.contains('img-skeleton')) return;
+
+      function revealImage() {
+        img.classList.add('img-loaded');
+        skeleton.classList.add('loaded');
+      }
+
+      if (img.complete && img.naturalWidth > 0) {
+        // Already cached / loaded synchronously
+        revealImage();
+      } else {
+        img.addEventListener('load', revealImage, { once: true });
+        img.addEventListener('error', revealImage, { once: true });
+      }
+    }
+
+    document.querySelectorAll('.card-image').forEach(initImageSkeleton);
+
     // ---- Tab Filtering ----
     const tabs = document.querySelectorAll('.tab-btn');
     const cards = document.querySelectorAll('.portfolio-card');
