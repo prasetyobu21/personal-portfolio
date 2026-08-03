@@ -16,6 +16,8 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+    document.documentElement.classList.add('intro-pending');
+
     tailwind.config = {
       theme: {
         extend: {
@@ -325,10 +327,182 @@
     .card-image.img-loaded {
       opacity: 1;
     }
+
+    /* ---- Braille-Inspired Portfolio Intro ---- */
+    body.intro-active {
+      overflow: hidden;
+    }
+
+    body > header,
+    body > main,
+    body > footer {
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    body.intro-active > header,
+    body.intro-active > main,
+    body.intro-active > footer {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    .intro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #121212;
+      color: #f7f7f4;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.65s ease, visibility 0.65s ease;
+      visibility: hidden;
+    }
+
+    .intro-pending .intro-overlay {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .intro-content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      padding: 24px;
+    }
+
+    .braille-loader {
+      display: grid;
+      grid-template-columns: repeat(2, 7px);
+      grid-template-rows: repeat(3, 7px);
+      gap: 4px;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .braille-loader span {
+      display: block;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .braille-loader span {
+      opacity: 0.16;
+      transform: scale(0.72);
+      transition: opacity 0.1s linear, transform 0.1s linear;
+    }
+
+    .braille-loader span.is-active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .intro-status {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .welcome-mark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: flex;
+      align-items: center;
+      gap: clamp(4px, 1vw, 12px);
+      color: #f7f7f4;
+      opacity: 0;
+      transform: translate(-50%, calc(-50% + 8px));
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .welcome-letter {
+      display: grid;
+      grid-template-columns: repeat(5, 0.13em);
+      grid-template-rows: repeat(7, 0.13em);
+      gap: 0.07em;
+      font-size: clamp(2.2rem, 8vw, 6rem);
+    }
+
+    .welcome-mark::after {
+      content: '';
+      width: 0.07em;
+      height: 0.9em;
+      margin-left: 0.08em;
+      background: currentColor;
+      opacity: 0;
+    }
+
+    .welcome-dot {
+      opacity: 0;
+      transform: scale(0.25);
+    }
+
+    .intro-overlay.show-welcome .braille-loader,
+    .intro-overlay.show-welcome .intro-status {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+
+    .intro-overlay.show-welcome .welcome-mark {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+
+    .intro-overlay.show-welcome .welcome-mark::after {
+      animation: cursorBlink 0.8s step-end infinite;
+    }
+
+    .intro-overlay.show-welcome .welcome-letter .welcome-dot {
+      animation: dotGlyphIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation-delay: calc(var(--letter-index) * 90ms + var(--dot-index) * 9ms + 120ms);
+    }
+
+    .intro-overlay.is-leaving {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @keyframes dotGlyphIn {
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes cursorBlink {
+      0%, 45% { opacity: 1; }
+      46%, 100% { opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 
-<body class="bg-bg font-sans text-primary antialiased">
+<body class="bg-bg font-sans text-primary antialiased intro-active">
+  <div id="portfolio-intro" class="intro-overlay" role="status" aria-live="polite" aria-label="Loading portfolio">
+    <div class="intro-content">
+      <div id="braille-loader" class="braille-loader" aria-hidden="true"></div>
+      <div id="welcome-mark" class="welcome-mark" role="img" aria-label="Welcome"></div>
+      <p id="intro-status" class="intro-status">Loading portfolio</p>
+    </div>
+  </div>
 
   <!-- ===================== HERO / INTRODUCTION ===================== -->
   <header id="hero" class="max-w-5xl mx-auto px-6 pt-16 pb-12 md:pt-24 md:pb-16">
@@ -691,6 +865,121 @@
 
   <!-- ===================== JAVASCRIPT ===================== -->
   <script>
+    // ---- Portfolio Intro ----
+    (function initPortfolioIntro() {
+      const intro = document.getElementById('portfolio-intro');
+      const loader = document.getElementById('braille-loader');
+      const welcomeMark = document.getElementById('welcome-mark');
+      const status = document.getElementById('intro-status');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const assets = [
+        'assets/images/profile-avatar.webp',
+        'assets/images/terragrid-thumbnail.webp',
+        'assets/images/vibe_coding_thumbnail.webp',
+        'assets/images/Retain-AI/Retain AI - Thumbnail.webp',
+        'assets/images/ai-meal-planner/AI Meal Planner - Thumbnail.webp',
+        'assets/images/white-icon-exploration/White icon - exploration.webp',
+        'assets/images/white-icon-exploration/White icon - implementation.webp',
+        'assets/images/Sports app widget.webp',
+        'assets/images/Black - orange icon exploration.webp'
+      ];
+      const spinnerFrames = [
+        [1, 0, 0, 0, 0, 0],
+        [1, 0, 0, 1, 0, 0],
+        [1, 1, 0, 1, 1, 0],
+        [0, 1, 0, 1, 1, 0],
+        [0, 1, 1, 0, 1, 0],
+        [0, 0, 1, 0, 1, 0],
+        [0, 0, 1, 0, 1, 1],
+        [0, 0, 1, 0, 0, 1],
+        [0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 1, 0, 1]
+      ];
+      const brailleDotPositions = [[1, 1], [1, 2], [1, 3], [2, 1], [2, 2], [2, 3]];
+
+      function revealPortfolio() {
+        document.documentElement.classList.remove('intro-pending');
+        document.body.classList.remove('intro-active');
+        intro.remove();
+      }
+
+      if (reduceMotion) {
+        revealPortfolio();
+        return;
+      }
+
+      const spinnerDots = Array.from({ length: 6 }, (_, dotIndex) => {
+        const dot = document.createElement('span');
+        const [column, row] = brailleDotPositions[dotIndex];
+        dot.style.gridColumn = column;
+        dot.style.gridRow = row;
+        loader.append(dot);
+        return dot;
+      });
+      let spinnerFrame = 0;
+
+      function renderSpinner() {
+        spinnerDots.forEach((dot, dotIndex) => {
+          dot.classList.toggle('is-active', Boolean(spinnerFrames[spinnerFrame][dotIndex]));
+        });
+        spinnerFrame = (spinnerFrame + 1) % spinnerFrames.length;
+      }
+
+      renderSpinner();
+      const spinnerInterval = setInterval(renderSpinner, 95);
+
+      function preloadAssets() {
+        let loadedAssets = 0;
+        status.textContent = `Loading assets 0 / ${assets.length}`;
+
+        return Promise.all(assets.map((source) => new Promise((resolve) => {
+          const image = new Image();
+          const complete = () => {
+            loadedAssets += 1;
+            if (!intro.classList.contains('show-welcome')) {
+              status.textContent = `Loading assets ${loadedAssets} / ${assets.length}`;
+            }
+            resolve();
+          };
+
+          image.addEventListener('load', complete, { once: true });
+          image.addEventListener('error', complete, { once: true });
+          image.src = source;
+        })));
+      }
+
+      const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+      const assetsReady = Promise.all([preloadAssets(), fontsReady]);
+      const maximumWait = new Promise((resolve) => setTimeout(resolve, 4000));
+      const minimumDisplay = new Promise((resolve) => setTimeout(resolve, 2000));
+
+      Promise.all([Promise.race([assetsReady, maximumWait]), minimumDisplay]).then(() => {
+        clearInterval(spinnerInterval);
+        status.textContent = 'Welcome';
+        intro.classList.add('show-welcome');
+        let characterIndex = 0;
+
+        const typeWelcome = setInterval(() => {
+          welcomeMark.textContent += 'Welcome'[characterIndex];
+          characterIndex += 1;
+
+          if (characterIndex === 'Welcome'.length) {
+            clearInterval(typeWelcome);
+          }
+        }, 110);
+
+        setTimeout(() => {
+          intro.classList.add('is-leaving');
+          document.body.classList.remove('intro-active');
+
+          setTimeout(() => {
+            document.documentElement.classList.remove('intro-pending');
+            intro.remove();
+          }, 650);
+        }, 1750);
+      });
+    }());
+
     // ---- Image Skeleton Loader ----
     function initImageSkeleton(img) {
       const skeleton = img.previousElementSibling;
