@@ -348,6 +348,21 @@
       transform: translateY(16px);
     }
 
+    body.intro-revealing > header,
+    body.intro-revealing > main,
+    body.intro-revealing > footer {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    body.intro-revealing > main {
+      transition-delay: 120ms;
+    }
+
+    body.intro-revealing > footer {
+      transition-delay: 240ms;
+    }
+
     .intro-overlay {
       position: fixed;
       inset: 0;
@@ -470,6 +485,152 @@
       animation-delay: calc(var(--letter-index) * 90ms + var(--dot-index) * 9ms + 120ms);
     }
 
+    .site-blueprint {
+      position: fixed;
+      inset: 0 auto 0 50%;
+      width: 100%;
+      max-width: 1024px;
+      box-sizing: border-box;
+      padding: 64px 24px 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translate(-50%, 12px);
+      pointer-events: none;
+      transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .blueprint-line,
+    .blueprint-block,
+    .blueprint-avatar {
+      display: block;
+      border: 1px solid rgba(247, 247, 244, 0.28);
+      background: rgba(247, 247, 244, 0.05);
+    }
+
+    .blueprint-line {
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    .blueprint-block,
+    .blueprint-avatar {
+      opacity: 0;
+      clip-path: inset(0 100% 0 0);
+    }
+
+    .blueprint-hero {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: start;
+      padding-bottom: 48px;
+    }
+
+    .blueprint-avatar {
+      width: 64px;
+      aspect-ratio: 1;
+      border-radius: 16px;
+    }
+
+    .blueprint-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .blueprint-line {
+      height: 8px;
+    }
+
+    .blueprint-title { width: min(52%, 360px); height: 36px; }
+    .blueprint-copy .blueprint-line:nth-child(2) { width: min(100%, 576px); height: 18px; }
+    .blueprint-copy .blueprint-line:nth-child(3) { width: min(95%, 548px); height: 18px; }
+    .blueprint-copy .blueprint-line:nth-child(4) { width: min(78%, 450px); height: 18px; }
+    .blueprint-copy .blueprint-line:nth-child(5) { width: 44%; height: 18px; }
+
+    .blueprint-tabs {
+      position: relative;
+      display: flex;
+      gap: 24px;
+      padding-bottom: 12px;
+      margin-bottom: 32px;
+    }
+
+    .blueprint-tabs::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 1px;
+      background: rgba(247, 247, 244, 0.28);
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    .blueprint-tab { width: 46px; height: 7px; }
+    .blueprint-tab:nth-child(2) { width: 96px; }
+    .blueprint-tab:nth-child(3) { width: 54px; }
+
+    .blueprint-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 32px;
+    }
+
+    .blueprint-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .blueprint-thumb { aspect-ratio: 4 / 3; }
+    .blueprint-card .blueprint-line { width: 72%; }
+    .blueprint-card .blueprint-line:last-child { width: 48%; }
+
+    .intro-overlay.show-skeleton .welcome-mark {
+      opacity: 0;
+      transform: translate(-50%, calc(-50% - 8px));
+    }
+
+    .intro-overlay.show-skeleton .site-blueprint {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .intro-overlay.show-skeleton .blueprint-line {
+      animation: blueprintLineDraw 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation-delay: var(--draw-delay, 0ms);
+    }
+
+    .intro-overlay.show-skeleton .blueprint-block,
+    .intro-overlay.show-skeleton .blueprint-avatar {
+      animation: blueprintFrameDraw 0.48s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+      animation-delay: var(--draw-delay, 0ms);
+    }
+
+    .intro-overlay.show-skeleton .blueprint-tabs::after {
+      animation: blueprintLineDraw 0.55s cubic-bezier(0.16, 1, 0.3, 1) 440ms forwards;
+    }
+
+    .blueprint-avatar { --draw-delay: 0ms; }
+    .blueprint-copy .blueprint-line:nth-child(1) { --draw-delay: 90ms; }
+    .blueprint-copy .blueprint-line:nth-child(2) { --draw-delay: 160ms; }
+    .blueprint-copy .blueprint-line:nth-child(3) { --draw-delay: 230ms; }
+    .blueprint-copy .blueprint-line:nth-child(4) { --draw-delay: 300ms; }
+    .blueprint-copy .blueprint-line:nth-child(5) { --draw-delay: 370ms; }
+    .blueprint-tab:nth-child(1) { --draw-delay: 470ms; }
+    .blueprint-tab:nth-child(2) { --draw-delay: 540ms; }
+    .blueprint-tab:nth-child(3) { --draw-delay: 610ms; }
+    .blueprint-card:nth-child(1) .blueprint-thumb { --draw-delay: 700ms; }
+    .blueprint-card:nth-child(1) .blueprint-line:nth-child(2) { --draw-delay: 790ms; }
+    .blueprint-card:nth-child(1) .blueprint-line:nth-child(3) { --draw-delay: 860ms; }
+    .blueprint-card:nth-child(2) .blueprint-thumb { --draw-delay: 930ms; }
+    .blueprint-card:nth-child(2) .blueprint-line:nth-child(2) { --draw-delay: 1020ms; }
+    .blueprint-card:nth-child(2) .blueprint-line:nth-child(3) { --draw-delay: 1090ms; }
+
     .intro-overlay.is-leaving {
       opacity: 0;
       pointer-events: none;
@@ -477,6 +638,14 @@
 
     @keyframes dotGlyphIn {
       to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes blueprintLineDraw {
+      to { opacity: 1; transform: scaleX(1); }
+    }
+
+    @keyframes blueprintFrameDraw {
+      to { opacity: 1; clip-path: inset(0); }
     }
 
     @keyframes cursorBlink {
@@ -494,6 +663,42 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+    @media (max-width: 767px) {
+      .blueprint-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .blueprint-card:nth-child(n + 2) {
+        display: none;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .site-blueprint {
+        padding-top: 96px;
+      }
+
+      .blueprint-hero {
+        padding-bottom: 64px;
+      }
+
+      .blueprint-avatar {
+        width: 80px;
+      }
+
+      .blueprint-title {
+        height: 52px;
+      }
+
+      .blueprint-copy .blueprint-line:nth-child(5) {
+        display: none;
+      }
+
+      .blueprint-grid {
+        gap: 40px;
+      }
+    }
   </style>
 </head>
 
@@ -502,6 +707,27 @@
     <div class="intro-content">
       <div id="braille-loader" class="braille-loader" aria-hidden="true"></div>
       <div id="welcome-mark" class="welcome-mark" role="img" aria-label="Welcome"></div>
+      <div class="site-blueprint" aria-hidden="true">
+        <div class="blueprint-hero">
+          <span class="blueprint-avatar"></span>
+          <div class="blueprint-copy">
+            <span class="blueprint-line blueprint-title"></span>
+            <span class="blueprint-line"></span>
+            <span class="blueprint-line"></span>
+            <span class="blueprint-line"></span>
+            <span class="blueprint-line"></span>
+          </div>
+        </div>
+        <div class="blueprint-tabs">
+          <span class="blueprint-line blueprint-tab"></span>
+          <span class="blueprint-line blueprint-tab"></span>
+          <span class="blueprint-line blueprint-tab"></span>
+        </div>
+        <div class="blueprint-grid">
+          <div class="blueprint-card"><span class="blueprint-block blueprint-thumb"></span><span class="blueprint-line"></span><span class="blueprint-line"></span></div>
+          <div class="blueprint-card"><span class="blueprint-block blueprint-thumb"></span><span class="blueprint-line"></span><span class="blueprint-line"></span></div>
+        </div>
+      </div>
       <p id="intro-status" class="intro-status">Loading portfolio</p>
     </div>
   </div>
@@ -971,13 +1197,20 @@
         }, 110);
 
         setTimeout(() => {
-          intro.classList.add('is-leaving');
-          document.body.classList.remove('intro-active');
+          status.textContent = 'Portfolio preview';
+          intro.classList.add('show-skeleton');
 
           setTimeout(() => {
-            document.documentElement.classList.remove('intro-pending');
-            intro.remove();
-          }, 650);
+            intro.classList.add('is-leaving');
+            document.body.classList.remove('intro-active');
+            document.body.classList.add('intro-revealing');
+
+            setTimeout(() => {
+              document.documentElement.classList.remove('intro-pending');
+              document.body.classList.remove('intro-revealing');
+              intro.remove();
+            }, 650);
+          }, 1900);
         }, 1750);
       });
     }());
