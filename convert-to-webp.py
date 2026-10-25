@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Convert all PNG/JPG images in assets/images to WebP using Pillow."""
+"""Convert all PNG/JPG images in public/assets/images to WebP using Pillow."""
 
 import os
 import sys
@@ -10,7 +10,7 @@ except ImportError:
     print("❌ Pillow not installed. Run: pip3 install Pillow")
     sys.exit(1)
 
-BASE = "assets/images"
+BASE = "public/assets/images"
 QUALITY = 85
 
 def convert(src):

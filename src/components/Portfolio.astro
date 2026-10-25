@@ -1,0 +1,27 @@
+---
+import projects from '../data/projects.json';
+import ProjectCard from './ProjectCard.astro';
+---
+<main id="portfolio" class="max-w-5xl mx-auto px-6 pb-20">
+
+  <!-- Filter Tabs -->
+  <nav id="portfolio-tabs" class="mb-8 border-b border-card-border">
+    <div class="tabs-scroll flex gap-6 overflow-x-auto pb-px">
+      <button class="tab-btn active text-sm md:text-[15px] font-semibold text-primary pb-3 whitespace-nowrap"
+        data-filter="all">
+        All
+      </button>
+      <button class="tab-btn text-sm md:text-[15px] font-medium text-muted pb-3 whitespace-nowrap hover:text-primary"
+        data-filter="design">
+        Design Exploration
+      </button>
+      <button class="tab-btn text-sm md:text-[15px] font-medium text-muted pb-3 whitespace-nowrap hover:text-primary"
+        data-filter="article">
+        Article
+      </button>
+    </div>
+  </nav>
+  <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+    {projects.map(project => <ProjectCard project={project} />)}
+  </div>
+</main>

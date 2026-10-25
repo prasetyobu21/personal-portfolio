@@ -1,0 +1,34 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  intro?: boolean;
+}
+
+const {
+  title = 'Prasetyo — Senior Product Designer & Product Manager',
+  description = 'Portfolio of Prasetyo, a Senior Product Designer and Product Manager at bitbybit. Explore projects in UI/UX Design, Articles, and Graphic Design.',
+  intro = false,
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  {intro && <script is:inline>document.documentElement.classList.add('intro-pending');</script>}
+</head>
+<body class:list={['bg-bg font-sans text-primary antialiased', { 'intro-active': intro }]}>
+  <slot />
+</body>
+</html>

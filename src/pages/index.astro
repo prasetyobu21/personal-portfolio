@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Intro from '../components/Intro.astro';
+import Hero from '../components/Hero.astro';
+import Portfolio from '../components/Portfolio.astro';
+import Footer from '../components/Footer.astro';
+import Lightbox from '../components/Lightbox.astro';
+---
+<Layout intro>
+  <Intro />
+  <Hero />
+  <Portfolio />
+  <Footer />
+  <Lightbox />
+  <script>
+    import '../scripts/portfolio.js';
+  </script>
+</Layout>
