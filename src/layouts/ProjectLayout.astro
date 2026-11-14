@@ -1,0 +1,122 @@
+---
+import Layout from './Layout.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    project: string;
+    category: string;
+    year: string;
+    cover: string;
+    coverAlt: string;
+    coverCaption?: string;
+    template?: boolean;
+    details: { label: string; value: string }[];
+    sections: { id: string; label: string }[];
+  };
+}
+
+const { frontmatter: project } = Astro.props;
+---
+<Layout title={`${project.project} — Prasetyo`} description={project.description}>
+  <header class="max-w-5xl mx-auto px-6">
+    <nav class="project-nav flex items-center justify-between border-b border-card-border py-6" aria-label="Project navigation">
+      <a href="/" class="inline-flex items-center gap-3 text-sm font-medium hover:text-muted transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m12 19-7-7 7-7M5 12h14" />
+        </svg>
+        All projects
+      </a>
+    </nav>
+  </header>
+
+  <main id="project" class="max-w-5xl mx-auto px-6 pb-20 md:pb-28">
+    <article>
+      <header class="pt-12 pb-8 md:pt-20 md:pb-12">
+        <p class="text-[11px] text-muted uppercase tracking-wider font-bold mb-5">{project.category} <span class="mx-2" aria-hidden="true">/</span> {project.year}</p>
+        <p class="text-sm font-medium mb-3">{project.project}</p>
+        <h1 class="text-3xl md:text-5xl font-bold tracking-tight leading-tight max-w-3xl">{project.title}</h1>
+        <p class="text-base md:text-lg text-muted leading-relaxed mt-5 max-w-2xl">{project.description}</p>
+
+        <dl class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-6 border-t border-card-border mt-10 pt-6">
+          {project.details.map(detail => <div>
+            <dt class="text-[11px] font-bold uppercase tracking-wider text-muted mb-2">{detail.label}</dt>
+            <dd class="text-sm leading-relaxed">{detail.value}</dd>
+          </div>)}
+        </dl>
+      </header>
+
+      <figure>
+        <img src={project.cover} alt={project.coverAlt} width="1650" height="1235" fetchpriority="high" class="w-full h-auto border border-card-border bg-surface" />
+        {project.coverCaption && <figcaption class="text-xs text-muted leading-relaxed mt-3">{project.coverCaption}</figcaption>}
+      </figure>
+
+      <div class="project-body pt-12 md:pt-16">
+        <aside>
+          <nav class="project-toc" aria-label="On this page">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-muted mb-4">On this page</p>
+            <ol class="flex flex-wrap gap-x-5 gap-y-3 md:block md:space-y-4">
+              {project.sections.map((section, index) => <li>
+                <a href={`#${section.id}`} class="inline-flex gap-3 text-sm text-muted hover:text-primary transition-colors">
+                  <span class="text-xs tabular-nums opacity-60">{String(index + 1).padStart(2, '0')}</span>
+                  {section.label}
+                </a>
+              </li>)}
+            </ol>
+          </nav>
+        </aside>
+
+        <div class="min-w-0">
+          {project.template && <div class="template-note border border-card-border bg-surface px-5 py-4 mb-10">
+            <p class="text-sm font-medium mb-1">Case study template</p>
+            <p class="text-xs text-muted leading-relaxed">Sample story and existing Retain AI visuals. Replace the prompts with your own process, decisions, and verified results.</p>
+          </div>}
+          <div class="project-content"><slot /></div>
+          <a href="/#portfolio" class="project-return flex justify-between items-center gap-4 border-y border-card-border py-6 mt-12 text-sm font-medium hover:text-muted transition-colors">
+            Explore more projects <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .project-body { display: grid; gap: 2.5rem; }
+  .project-nav a:focus-visible,
+  .project-toc a:focus-visible,
+  .project-return:focus-visible,
+  .project-content :global(a:focus-visible) { outline: 2px solid currentColor; outline-offset: 6px; }
+  .project-content { color: #A7A7A2; font-size: 1rem; line-height: 1.85; }
+  .project-content :global(h2) { color: #F3F3EF; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.025em; line-height: 1.3; margin: 3.5rem 0 1.25rem; padding-top: 2.5rem; border-top: 1px solid #2B2C29; scroll-margin-top: 2rem; }
+  .project-content :global(h2:first-child) { margin-top: 0; padding-top: 0; border: 0; }
+  .project-content :global(h3) { color: #F3F3EF; font-size: 1.125rem; font-weight: 600; margin: 2rem 0 0.75rem; line-height: 1.5; }
+  .project-content :global(p) { margin: 0 0 1.25rem; }
+  .project-content :global(strong) { color: #F3F3EF; font-weight: 500; }
+  .project-content :global(ul), .project-content :global(ol) { padding-left: 1.25rem; margin-bottom: 1.5rem; }
+  .project-content :global(ul) { list-style: disc; }
+  .project-content :global(ol) { list-style: decimal; }
+  .project-content :global(li) { padding-left: 0.25rem; margin: 0.5rem 0; }
+  .project-content :global(li::marker) { color: #A7A7A2; }
+  .project-content :global(blockquote) { border-left: 2px solid #F3F3EF; padding-left: 1.5rem; color: #F3F3EF; font-size: 1.25rem; line-height: 1.6; margin: 2rem 0; }
+  .project-content :global(a) { color: #F3F3EF; text-decoration: underline; text-underline-offset: 4px; }
+  .project-content :global(img) { width: 100%; height: auto; border: 1px solid #2B2C29; background: #191A18; margin: 2rem 0 0.75rem; }
+  .project-content :global(figcaption) { font-size: 0.75rem; line-height: 1.6; margin-bottom: 2rem; }
+  .project-content :global(.testimonials) { display: grid; gap: 1rem; margin: 2rem 0; }
+  .project-content :global(.testimonial) { display: flex; flex-direction: column; padding: 1.75rem; border: 1px solid #2B2C29; background: #191A18; }
+  .project-content :global(.testimonial-mark) { color: #777872; font-family: Georgia, serif; font-size: 3.5rem; line-height: 0.8; }
+  .project-content :global(.testimonial blockquote) { flex: 1; border: 0; padding: 0; margin: 1.25rem 0 1.5rem; font-size: 1rem; line-height: 1.65; }
+  .project-content :global(.testimonial blockquote p) { margin: 0; }
+  .project-content :global(.testimonial figcaption) { color: #A7A7A2; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; }
+  @media (min-width: 768px) {
+    .project-content :global(.testimonials) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .project-content :global(.testimonial:first-child) { grid-column: 1 / -1; }
+    .project-content :global(.testimonial:first-child blockquote) { max-width: 32rem; font-size: 1.3rem; }
+    .project-body { grid-template-columns: 10rem minmax(0, 1fr); gap: 3.5rem; }
+    .project-toc { position: sticky; top: 2rem; }
+    .project-content :global(h2) { font-size: 1.75rem; }
+  }
+</style>

@@ -2,7 +2,7 @@
 # Convert all PNG/JPG images to WebP using macOS built-in sips
 # Originals are kept — only .webp files are added
 
-BASE="assets/images"
+BASE="public/assets/images"
 
 convert_to_webp() {
   local input="$1"
@@ -33,4 +33,4 @@ done
 
 echo ""
 echo "✅ Done! WebP files created alongside originals."
-echo "   Next: update src paths in index.html to use .webp extensions."
+echo "   Next: update image paths in src/data/projects.json to use .webp extensions."

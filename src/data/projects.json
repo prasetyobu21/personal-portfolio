@@ -1,0 +1,102 @@
+[
+  {
+    "title": "AI Workflow Class",
+    "description": "A free, practical class exploring how designers can bring AI into their workflow.",
+    "categories": "article",
+    "date": "2026-11",
+    "dateLabel": "November 2026",
+    "image": "assets/images/ai-workflow-class-thumbnail.webp",
+    "alt": "AI Workflow Class for Product and UIUX Designer",
+    "href": "/project/ai-workflow-class/"
+  },
+  {
+    "title": "MD Share App",
+    "description": "A stark, minimalist Markdown-sharing workspace for turning notes into clean, reader-friendly links with privacy and time-bound access controls.",
+    "categories": "design",
+    "date": "2026-06",
+    "dateLabel": "June 2026",
+    "image": "assets/images/md-share-thumbnail.webp",
+    "alt": "MD Share App workspace",
+    "href": "https://md.prasetyoutomo.com/demo"
+  },
+  {
+    "title": "Terragrid Website",
+    "description": "Testing the vibe coding experience by building a landing page fully with Gemini CLI as a coding agent.",
+    "categories": "design",
+    "date": "2026-05",
+    "dateLabel": "May 2026",
+    "image": "assets/images/terragrid-thumbnail.webp",
+    "alt": "Terragrid Website",
+    "href": "https://terragrid-website.vercel.app/"
+  },
+  {
+    "title": "The Vibe Coding Trend — Not Just a Buzzword",
+    "description": "Exploring how vibe coding is fundamentally changing the product workflow.",
+    "categories": "article",
+    "date": "2026-04",
+    "dateLabel": "April 2026",
+    "image": "assets/images/vibe_coding_thumbnail.webp",
+    "alt": "The Vibe Coding Trend",
+    "href": "https://medium.com/@prasetyobu21/the-vibe-coding-trend-isnt-just-a-buzzword-it-s-fundamentally-changing-the-product-workflow-5e5b4b5195b1"
+  },
+  {
+    "title": "Retain AI — AI Based Retention Dashboard",
+    "description": "Modern data visualization that helps user to make important decision.",
+    "categories": "design article",
+    "date": "2026-01",
+    "dateLabel": "January 2026",
+    "image": "assets/images/Retain-AI/Retain AI - Thumbnail.webp",
+    "alt": "Retain AI Dashboard",
+    "href": "https://medium.com/@prasetyobu21/ai-powered-customer-success-churn-prediction-dashboard-a317231c5364"
+  },
+  {
+    "title": "AI Meal Planner — Snap, Chat & Cook",
+    "description": "Redefining meal prep with visual AI and conversational agents for a smarter cooking experience.",
+    "categories": "design article",
+    "date": "2025-11",
+    "dateLabel": "November 2025",
+    "image": "assets/images/ai-meal-planner/AI Meal Planner - Thumbnail.webp",
+    "alt": "AI Meal Planner App",
+    "href": "https://medium.com/@prasetyobu21/snap-chat-cook-redefining-meal-prep-with-visual-ai-and-conversational-agents-465b113ae61c"
+  },
+  {
+    "title": "White icon exploration",
+    "description": "Minimalist white payment icons (Visa, Mastercard, Shopify) applied to a seamless checkout selection modal.",
+    "categories": "design",
+    "date": "2024-01",
+    "dateLabel": "2024",
+    "image": "assets/images/white-icon-exploration/White icon - exploration.webp",
+    "alt": "White icon exploration",
+    "images": [
+      "assets/images/white-icon-exploration/White icon - exploration.webp",
+      "assets/images/white-icon-exploration/White icon - implementation.webp"
+    ],
+    "href": "assets/images/white-icon-exploration/White icon - exploration.webp"
+  },
+  {
+    "title": "Health Tracker Widgets",
+    "description": "A comprehensive set of health tracking widgets including sleep monitoring, running sessions, and calories burned.",
+    "categories": "design",
+    "date": "2023-01",
+    "dateLabel": "2023",
+    "image": "assets/images/Sports app widget.webp",
+    "alt": "Health Tracker Widgets",
+    "images": [
+      "assets/images/Sports app widget.webp"
+    ],
+    "href": "assets/images/Sports app widget.webp"
+  },
+  {
+    "title": "Black & Orange Icon Exploration",
+    "description": "A sleek and modern set of outline icons using a bold dual-tone palette to enhance interface clarity.",
+    "categories": "design",
+    "date": "2022-01",
+    "dateLabel": "2022",
+    "image": "assets/images/Black - orange icon exploration.webp",
+    "alt": "Black & Orange Icon Exploration",
+    "images": [
+      "assets/images/Black - orange icon exploration.webp"
+    ],
+    "href": "assets/images/Black - orange icon exploration.webp"
+  }
+]
