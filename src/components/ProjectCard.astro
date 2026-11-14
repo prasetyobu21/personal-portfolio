@@ -2,9 +2,10 @@
 import type projects from '../data/projects.json';
 interface Props { project: (typeof projects)[number] }
 const { project } = Astro.props;
+const external = project.href.startsWith('https://');
 ---
-<a href={project.href} target={project.images ? undefined : '_blank'}
-  rel={project.images ? undefined : 'noopener noreferrer'}
+<a href={project.href} target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
   class="portfolio-card group block overflow-hidden"
   data-category={project.categories} data-date={project.date}
   data-title={project.title} data-subtitle={project.description}
@@ -17,7 +18,7 @@ const { project } = Astro.props;
     <div class="card-overlay">
       <span class="card-overlay-text">
         Click to open
-        {!project.images && <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        {external && <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
         </svg>}
       </span>

@@ -8,7 +8,7 @@ const script = readFileSync(new URL('../src/scripts/portfolio.js', import.meta.u
 
 test('production output retains every project, image, and local bundle', () => {
   const html = readFileSync('dist/index.html', 'utf8');
-  assert.equal(projects.length, 7);
+  assert.equal(projects.length, 8);
   assert.equal((html.match(/class="portfolio-card /g) || []).length, projects.length);
   assert.ok(!html.includes('cdn.tailwindcss.com'));
   for (const project of projects) {

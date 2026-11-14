@@ -156,36 +156,15 @@ tabs.forEach(tab => {
 
     const filter = tab.dataset.filter;
 
-    cards.forEach((card, idx) => {
-      card.classList.remove('fade-in-up');
+    cards.forEach(card => {
       const categories = card.dataset.category.split(' ');
       if (filter === 'all' || categories.includes(filter)) {
         card.style.display = 'block';
-        setTimeout(() => {
-          card.classList.add('fade-in-up');
-          card.style.animationDelay = `${idx * 0.07}s`;
-        }, 10);
       } else {
         card.style.display = 'none';
       }
     });
   });
-});
-
-// ---- Intersection Observer ----
-const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -40px 0px' };
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('fade-in-up');
-      observer.unobserve(entry.target);
-    }
-  });
-}, observerOptions);
-
-cards.forEach((card, idx) => {
-  card.style.animationDelay = `${idx * 0.1}s`;
-  observer.observe(card);
 });
 
 // ---- Lightbox Carousel ----

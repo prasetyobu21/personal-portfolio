@@ -1,5 +1,15 @@
 [
   {
+    "title": "AI Workflow Class",
+    "description": "A free, practical class exploring how designers can bring AI into their workflow.",
+    "categories": "article",
+    "date": "2026-11",
+    "dateLabel": "November 2026",
+    "image": "assets/images/ai-workflow-class.png",
+    "alt": "Design, with AI class registration page",
+    "href": "/project/ai-workflow-class/"
+  },
+  {
     "title": "Terragrid Website",
     "description": "Testing the vibe coding experience by building a landing page fully with Gemini CLI as a coding agent.",
     "categories": "design",
