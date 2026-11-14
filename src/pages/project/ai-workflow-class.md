@@ -75,7 +75,17 @@ I created the **AI Workflow Class** as a practical online class for designers. T
 
 The first session was about moving beyond a chat window. I wanted to show how an AI assistant can use the context, instructions, and tools around it to help carry a task forward—and why the person using it still needs to review the result.
 
+<figure>
+  <img src="/assets/images/ai-class-batch-one.webp" alt="Participants and host together in the first AI Workflow Class video call" loading="lazy" />
+  <figcaption>Getting together with the first batch of the AI Workflow Class.</figcaption>
+</figure>
+
 We broke down ideas that can feel technical at first: models, agents, harnesses, MCP connections, and reusable skills. Then we explored the second brain: a collection of notes, decisions, and references that can give an assistant useful context when it has the right access. I shared my own setup as one example, while encouraging participants to choose what works for them.
+
+<figure>
+  <img src="/assets/images/ai-class-workflow-presentation.webp" alt="AI workflow diagram being presented during the class, connecting agents, tools, and a second brain" loading="lazy" />
+  <figcaption>Walking through the AI workflow and second brain during the session.</figcaption>
+</figure>
 
 The goal was to make the workflow tangible: start with a task, bring in relevant context, use the right tools, and review what comes back. A designer can use that loop to move from a brief toward a design and eventually implementation, while keeping responsibility for the decisions along the way.
 
