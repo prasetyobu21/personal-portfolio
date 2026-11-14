@@ -5,9 +5,8 @@ title: How a question became an AI workflow class.
 description: A free, hands-on class for designers exploring how AI can support their workflow from an early idea to a working experience.
 category: Teaching · AI workflow
 year: "2026"
-cover: /assets/images/ai-workflow-class.png
-coverAlt: Registration page for Design, with AI, showing the class introduction and sign-up form
-coverCaption: The registration page for the first cohort of Design, with AI.
+cover: /assets/images/ai-workflow-class-thumbnail.webp
+coverAlt: AI Workflow Class for Product and UIUX Designer, with lime green artwork
 details:
   - label: My role
     value: Host and class creator
@@ -26,6 +25,10 @@ sections:
     label: Asking the community
   - id: from-idea-to-class
     label: From idea to class
+  - id: inside-the-class
+    label: Inside the class
+  - id: participant-feedback
+    label: Participant feedback
 ---
 
 ## A new way of working
@@ -63,4 +66,37 @@ The response was much bigger than I expected. People were interested, and **more
 
 I created the **AI Workflow Class** as a practical online class for designers. The goal was to help people see how AI could support their work from an early idea through design and implementation, while keeping their own judgment involved throughout.
 
-Then the class happened. This story will continue as I share more from the sessions.
+<figure>
+  <img src="/assets/images/ai-workflow-class.png" alt="Registration page for Design, with AI, showing the class introduction and sign-up form" loading="lazy" />
+  <figcaption>The registration page for the first cohort of Design, with AI.</figcaption>
+</figure>
+
+## Inside the class
+
+The first session was about moving beyond a chat window. I wanted to show how an AI assistant can use the context, instructions, and tools around it to help carry a task forward—and why the person using it still needs to review the result.
+
+We broke down ideas that can feel technical at first: models, agents, harnesses, MCP connections, and reusable skills. Then we explored the second brain: a collection of notes, decisions, and references that can give an assistant useful context when it has the right access. I shared my own setup as one example, while encouraging participants to choose what works for them.
+
+The goal was to make the workflow tangible: start with a task, bring in relevant context, use the right tools, and review what comes back. A designer can use that loop to move from a brief toward a design and eventually implementation, while keeping responsibility for the decisions along the way.
+
+## Participant feedback
+
+Hearing what participants took away from the class was one of the most rewarding parts of the experience. They shared how the explanations, practical examples, and discussion of the second brain helped them picture an AI workflow for their own work.
+
+<div class="testimonials">
+  <figure class="testimonial">
+    <span class="testimonial-mark" aria-hidden="true">“</span>
+    <blockquote><p>I like the deep discussion regarding the second brain the most since I really do need to work effectively from now on.</p></blockquote>
+    <figcaption>Class participant</figcaption>
+  </figure>
+  <figure class="testimonial">
+    <span class="testimonial-mark" aria-hidden="true">“</span>
+    <blockquote><p>The clarity of the topics, and how the instructor explains it.</p></blockquote>
+    <figcaption>Class participant</figcaption>
+  </figure>
+  <figure class="testimonial" lang="id">
+    <span class="testimonial-mark" aria-hidden="true">“</span>
+    <blockquote><p>topik terkait mcp dan second brain sangat membantu, jadi lebih terbayang untuk workflow nya</p></blockquote>
+    <figcaption lang="en">Class participant</figcaption>
+  </figure>
+</div>

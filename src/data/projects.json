@@ -5,9 +5,19 @@
     "categories": "article",
     "date": "2026-11",
     "dateLabel": "November 2026",
-    "image": "assets/images/ai-workflow-class.png",
-    "alt": "Design, with AI class registration page",
+    "image": "assets/images/ai-workflow-class-thumbnail.webp",
+    "alt": "AI Workflow Class for Product and UIUX Designer",
     "href": "/project/ai-workflow-class/"
+  },
+  {
+    "title": "MD Share App",
+    "description": "A stark, minimalist Markdown-sharing workspace for turning notes into clean, reader-friendly links with privacy and time-bound access controls.",
+    "categories": "design",
+    "date": "2026-06",
+    "dateLabel": "June 2026",
+    "image": "assets/images/md-share-thumbnail.webp",
+    "alt": "MD Share App workspace",
+    "href": "https://md.prasetyoutomo.com/demo"
   },
   {
     "title": "Terragrid Website",

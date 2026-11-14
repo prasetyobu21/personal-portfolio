@@ -105,7 +105,16 @@ const { frontmatter: project } = Astro.props;
   .project-content :global(a) { color: #F3F3EF; text-decoration: underline; text-underline-offset: 4px; }
   .project-content :global(img) { width: 100%; height: auto; border: 1px solid #2B2C29; background: #191A18; margin: 2rem 0 0.75rem; }
   .project-content :global(figcaption) { font-size: 0.75rem; line-height: 1.6; margin-bottom: 2rem; }
+  .project-content :global(.testimonials) { display: grid; gap: 1rem; margin: 2rem 0; }
+  .project-content :global(.testimonial) { display: flex; flex-direction: column; padding: 1.75rem; border: 1px solid #2B2C29; background: #191A18; }
+  .project-content :global(.testimonial-mark) { color: #777872; font-family: Georgia, serif; font-size: 3.5rem; line-height: 0.8; }
+  .project-content :global(.testimonial blockquote) { flex: 1; border: 0; padding: 0; margin: 1.25rem 0 1.5rem; font-size: 1rem; line-height: 1.65; }
+  .project-content :global(.testimonial blockquote p) { margin: 0; }
+  .project-content :global(.testimonial figcaption) { color: #A7A7A2; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin: 0; }
   @media (min-width: 768px) {
+    .project-content :global(.testimonials) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .project-content :global(.testimonial:first-child) { grid-column: 1 / -1; }
+    .project-content :global(.testimonial:first-child blockquote) { max-width: 32rem; font-size: 1.3rem; }
     .project-body { grid-template-columns: 10rem minmax(0, 1fr); gap: 3.5rem; }
     .project-toc { position: sticky; top: 2rem; }
     .project-content :global(h2) { font-size: 1.75rem; }
